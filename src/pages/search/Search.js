@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import throttle from 'lodash.throttle'
+import UsersGrid from '../../organisms/users-grid'
 
 const styles = {
     searchBar: {
@@ -30,7 +31,7 @@ const styles = {
         width: 50,
         height: 53,
         background: 'white',
-        backgroundImage: "url('../../icons/arrow-back.svg')",
+        backgroundImage: "url('icons/arrow-back.svg')",
         backgroundPosition: 'center',
         backgroundRepeat: "no-repeat",
         backgroundSize: 28,
@@ -43,9 +44,15 @@ const styles = {
 
 class Search extends React.Component{
 
-    state = {
-        users: [],
-        query: ''
+    constructor() {
+        super();
+
+        this.state = {
+            users: [],
+            query: ''
+        };
+
+        this.onUserClicked = this.onUserClicked.bind(this);
     }
 
     execSearch = (query) => {
@@ -83,8 +90,12 @@ class Search extends React.Component{
             this.execSearch(query)
     }
 
+    onUserClicked(user) {
+        this.props.history.push(`/user/${user.login}`);
+    }
+
     render() {
-        const { query } = this.state
+        const { query, users } = this.state
 
         return (
             <div>
@@ -104,7 +115,10 @@ class Search extends React.Component{
                 </div>
 
                 <div style={styles.searchResults}>
-
+                    <UsersGrid
+                       users={users}
+                       onUserClicked={this.onUserClicked}
+                    />
                 </div>
             </div>
         );
