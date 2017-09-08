@@ -8,7 +8,6 @@ class User extends Component {
 
     componentDidMount() {
         const { username } = this.props.match.params;
-
         fetch(`https://api.github.com/users/${username}`)
         .then(res => res.json())
         .then(data => {
